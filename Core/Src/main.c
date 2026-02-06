@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * @file           : main.c
-  * @brief          : Main program body
+  * @brief          : FAN_TEAM5
   ******************************************************************************
   * @attention
   *
@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "dma.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -26,9 +25,15 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+
 #include "led.h"
 #include "button.h"
 #include "rotate.h"
+#include "bt.h"
+#include "fan.h"
+#include "fnd.h"
+
+
 
 /* USER CODE END Includes */
 
@@ -39,7 +44,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
 
 /* USER CODE END PD */
 
@@ -52,13 +56,20 @@
 
 /* USER CODE BEGIN PV */
 
-
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)		//블루투스 인터럽트
+{
+	HAL_UART_Receive_IT(&huart1, rxData, 1);
+}
+
+
+
+
 
 /* USER CODE END PFP */
 
@@ -96,27 +107,37 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_USART2_UART_Init();
   MX_TIM3_Init();
+  MX_USART1_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+
+
+
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);	//서브모터
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);	//선풍기모터
+  HAL_UART_Receive_IT(&huart1, rxData, 1);	//블루투스
+  TIM2->CCR1 = 0;		//선풍기모터 초기화
+
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-
   while (1)
   {
-	  rotate();
-  }
+
+	  Fan();		//선풍기
+	  rotate();		//서브모터
+	  FND_CONTROL();
+	  Check();		//블루투스
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+  }
   /* USER CODE END 3 */
 }
 

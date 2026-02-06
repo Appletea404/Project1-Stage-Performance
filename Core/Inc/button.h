@@ -10,6 +10,7 @@
 
 #include "stm32f4xx_hal.h"
 #include "stdbool.h"
+#include "interrupt.h"
 
 typedef struct
 {

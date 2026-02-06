@@ -7,65 +7,84 @@
 
 #include"rotate.h"
 
-volatile uint8_t Flag = 0;
+//extern volatile bool Flag;
+//extern volatile bool Flag1;
+//extern volatile bool Flag2;
+//extern volatile bool Flag3;
+
+extern volatile uint8_t Flag;
+extern volatile uint8_t Flag1;
+extern volatile uint8_t Flag2;
+extern volatile uint8_t Flag3;
+
 volatile uint8_t curr = 20;
 volatile uint8_t direction = 0;
-volatile uint32_t last_tick = 0;
 
-//  uint32_t lastDebounceTime = 0;	// 마지막 디바운스 확인 시간
-//  GPIO_PinState lastButtonState = GPIO_PIN_SET;
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-    if (GPIO_Pin == GPIO_PIN_7)
-    {
-        uint32_t current_tick = HAL_GetTick();
-        if (current_tick - last_tick > 250) // 250ms 이내의 떨림은 무시
-        {
-            Flag = !Flag; // 1(실행) <-> 0(정지) 토글
-        }
-        last_tick = current_tick;
-    }
-}
+//void rotate()
+//{
+//	  if(Flag)
+//	  {
+//		  if(direction==0)
+//		  {
+//			for(uint16_t i=curr;i<130;i++)
+//			{
+//				if (!Flag)
+//				{
+//					break;
+//				}
+//				curr=i;
+//				TIM3->CCR1=i;
+//				HAL_Delay(50);
+//
+//				if(i==129) direction=1;
+//			}
+//		  }
+//		  if(direction==1)
+//		  {
+//			for(uint16_t i=curr;i>20;i--)
+//			{
+//				if (!Flag)
+//				{
+//					break;
+//				}
+//				curr=i;
+//				TIM3->CCR1=i;
+//				HAL_Delay(50);
+//
+//				if (i == 21) direction = 0;
+//			}
+//		  }
+//		}
+//}
 
 void rotate()
 {
-	  if(Flag)
-	  {
-//		  ledOn(8);
+    // static 변수는 함수가 끝나도 값을 기억합니다.
+    static uint32_t last_rotate_tick = 0;
+    uint32_t current_tick = HAL_GetTick();
 
-		  if(direction==0)
-		  {
-			for(uint16_t i=curr;i<130;i++)
-			{
-				if (!Flag)
-				{
-//					ledOff(8);// 누르는 순간 탈출!
-					break;
-				}
-				curr=i;
-				TIM3->CCR1=i;
-				HAL_Delay(50);
+    if (!Flag)
+    {
+        // 중요: 회전 안 할 때는 타이머를 현재 시간으로 계속 업데이트해서
+        // 켜지는 순간 바로 움직이게 대기시킵니다.
+        last_rotate_tick = current_tick;
+        return;
+    }
 
-				if(i==129) direction=1;
-			}
-		  }
-		  if(direction==1)
-		  {
-			for(uint16_t i=curr;i>20;i--)
-			{
-				if (!Flag)
-				{
-//					ledOff(8);// 누르는 순간 탈출!
-					break;
-				}
-				curr=i;
-				TIM3->CCR1=i;
-				HAL_Delay(50);
+    // 50ms 지났는지 확인
+    if (current_tick - last_rotate_tick >= 10)
+    {
+        last_rotate_tick = current_tick;
 
-				if (i == 21) direction = 0;
-			}
-		  }
-		}
+        if (direction == 0) {
+            curr++;
+            if (curr >= 130) direction = 1;
+        } else {
+            curr--;
+            if (curr <= 20) direction = 0;
+        }
+        TIM3->CCR1 = curr;
+    }
 }
 

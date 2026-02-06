@@ -8,12 +8,17 @@
 
 #include "button.h"
 
-BUTTON_CONTROL button[3]=
+
+BUTTON_CONTROL button[4]=
 {
-		{GPIOC, GPIO_PIN_9,0},
+
+		{GPIOA, GPIO_PIN_1,0},
+		{GPIOB, GPIO_PIN_13,0},
+		{GPIOC, GPIO_PIN_4,0},
 		{GPIOA, GPIO_PIN_7,0},
-		{GPIOB, GPIO_PIN_9,0},
 };
+
+
 
 bool buttonGetPressed(uint8_t num)
 {
