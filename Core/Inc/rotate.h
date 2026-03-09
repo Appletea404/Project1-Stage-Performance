@@ -10,11 +10,19 @@
 
 #include "main.h"
 #include "led.h"
+#include "interrupt.h"
+
+//extern volatile bool Flag;
+//extern volatile bool Flag1;
+//extern volatile uint8_t curr;
+//extern volatile uint8_t direction;
+//extern volatile uint32_t last_tick;
 
 extern volatile uint8_t Flag;
-extern volatile uint8_t curr;
-extern volatile uint8_t direction;
-extern volatile uint32_t last_tick;
+extern volatile uint8_t Flag1;
+extern volatile uint8_t Flag2;
+extern volatile uint8_t Flag3;
+extern volatile uint8_t Flag4;
 
 void rotate(void);
 
