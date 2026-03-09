@@ -146,7 +146,7 @@ Project 1 Stage Perfomance/
 
 ❗ **Action (해결 방법)**
 
-- 버튼 입력 시스템을 **외부 인터럽트(External Interrupt)**방식으로 전환
+- 버튼 입력 시스템을 **외부 인터럽트(External Interrupt)** 방식으로 전환
 - 서브모터 로직이 수행 중이더라도 MCU가 인지하도록 변경
 
 ✅ **Result (결과)**
