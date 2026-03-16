@@ -102,10 +102,7 @@ Project 1 Stage Perfomance/
 
 ## 6. Troubleshooting (문제 해결 기록)
 
-<details>
-<summary> <b> 서보모터 구동시 FND 출력 왜곡 문제 </b></summary>
-
-<br>
+### 6.1 서보모터 구동시 FND 출력 왜곡 문제 
 
 🔍  **Issue (문제 상황)**
 
@@ -124,15 +121,13 @@ Project 1 Stage Perfomance/
 
 ✅ **Result (결과)**
 
-- 서보 모터의 동작 유무와 상관없이 FND의 문구가 떨림 없이 안정적으로 출력됨.
-
-</details>
+- 서보 모터의 동작 유무와 상관없이 FND의 문구가 떨림 없이 안정적으로 출력됨
 
 
-<details>
-<summary> <b> 버튼 입력 인식 불가 현상 </b></summary>
 
-<br>
+
+### 6.2 버튼 입력 인식 불가 현상 
+
 
 🔍  **Issue (문제 상황)**
 
@@ -142,7 +137,7 @@ Project 1 Stage Perfomance/
 
 - 버튼 입력과 모터 구동 로직이 모두 메인 루프 내에서 폴링(Polling) 방식으로 동작함
 
-- MCU가 모터의 회전을 컨트롤하는 동안 버튼 상태를 체크하는 로직이 실행되지 못해 입력 신호를 놓치는(Miss) 현상 발생
+- MCU가 모터의 회전을 컨트롤하는 동안 버튼 상태를 체크하는 로직이 실행되지 못해 입력 신호를 놓치는 현상 발생
 
 ❗ **Action (해결 방법)**
 
@@ -151,7 +146,7 @@ Project 1 Stage Perfomance/
 
 ✅ **Result (결과)**
 
-서브모터가 작동중이어도 버튼 데이터가 실시간으로 즉각 반영
-</details>
+- 서브모터가 작동중이어도 버튼 데이터가 실시간으로 즉각 반영
+
 
 
